@@ -10,7 +10,11 @@ interface WeatherForecast {
 
 @Component({
   selector: 'app-root',
-  templateUrl: './app.component.html',
+  template: `
+    <h1>My Portfolio</h1>
+    <app-rowing-data></app-rowing-data>
+    <app-about-me></app-about-me>
+  `,
   styleUrl: './app.component.css'
 })
 export class AppComponent implements OnInit {
