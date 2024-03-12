@@ -1,1 +1,16 @@
 <p>rowing-data works!</p>
+<form [formGroup]="rowingEventForm" (ngSubmit)="onSubmit()">
+  <label for="distance">Distance</label>
+  <input id="distance" type="number" formControlName="distance">
+
+  <label for="totalTime">Total Time</label>
+  <input id="totalTime" type="text" formControlName="totalTime">
+
+  <label for="eventDate">Event Date</label>
+  <input id="eventDate" type="date" formControlName="eventDate">
+
+  <label for="strokeRate">Stroke Rate</label>
+  <input id="strokeRate" type="number" formControlName="strokeRate">
+
+  <button type="submit">Add Rowing Event</button>
+</form>

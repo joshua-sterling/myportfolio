@@ -20,11 +20,35 @@ try
     {
         connectionString = builder.Configuration["DefaultConnection"];
     }
+
+    builder.Services.AddAutoMapper(typeof(Program));
     builder.Services.AddDbContext<MyPortfolioContext>(options =>
                 options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
+
+    builder.Services.AddScoped<RowingEventRepository>();
+    
+
     builder.Services.AddControllers();
     builder.Services.AddEndpointsApiExplorer();
-    builder.Services.AddSwaggerGen();
+
+    //no standard JSON representation for TimeSpan and DateOnly, so here we tell Swagger how to represent them
+    //makes the Swagger UI a little friendlier
+    builder.Services.AddSwaggerGen(x =>
+    {
+        x.MapType<TimeSpan>(() => new Microsoft.OpenApi.Models.OpenApiSchema
+        {
+            Type = "string",
+            Example = new Microsoft.OpenApi.Any.OpenApiString("00:02:00")
+        });
+
+        x.MapType<DateOnly>(() => new Microsoft.OpenApi.Models.OpenApiSchema
+        {
+            Type = "string",
+            Format = "date",
+            Example = new Microsoft.OpenApi.Any.OpenApiString("2024-03-01")
+        });
+    });
+    
 
     var app = builder.Build();
 
