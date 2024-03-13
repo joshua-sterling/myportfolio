@@ -1,0 +1,32 @@
+.form-container {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 15px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+  form input,
+  form select,
+  form button {
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+
+  form button {
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+  }
+
+    form button:hover {
+      background-color: #0056b3;
+    }
