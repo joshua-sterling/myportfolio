@@ -19,8 +19,7 @@ export class RowingDataComponent implements OnInit {
   recordsPerPage = 10;
   sortColumn = '';
   sortAscending = true;
-  isLoading = true;
-  showSpinnerGif = true;
+  isLoading = false;
   constructor(private http: HttpClient, private toastr: ToastrService) { }
 
   toggleForm() { 
@@ -55,8 +54,7 @@ export class RowingDataComponent implements OnInit {
   getRowingEvents() {
     const skip = (this.currentPage - 1) * this.recordsPerPage;
     const take = this.recordsPerPage;
-    let loadingTimeout = setTimeout(() => {
-      console.log("setting showSpinnerGif to true");
+    let loadingTimeout = setTimeout(() => {      
       this.isLoading = true;
     }, 1000); // Set isLoading to true after 1 second
 
