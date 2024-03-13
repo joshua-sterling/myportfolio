@@ -1,13 +1,13 @@
 <div class="form-container">
   <form [formGroup]="rowingEventForm" (ngSubmit)="onSubmit()">
+    <label for="eventDate">Event Date</label>
+    <input id="eventDate" type="date" formControlName="eventDate">
+
     <label for="distance">Distance</label>
     <input id="distance" type="number" formControlName="distance" min="0">
 
     <label for="totalTime">Total Time</label>
     <input id="totalTime" type="time" formControlName="totalTime" min="00:00" max="23:59">
-
-    <label for="eventDate">Event Date</label>
-    <input id="eventDate" type="date" formControlName="eventDate">
 
     <label for="strokeRate">Stroke Rate</label>
     <input id="strokeRate" type="number" formControlName="strokeRate" min="0" max="50">
