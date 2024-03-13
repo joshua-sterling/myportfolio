@@ -27,7 +27,7 @@ namespace myportfolio.Server.Controllers
         public IActionResult GetRowingEvents([FromQuery] TableOptions tableOptions)
         {
             try
-            {
+            {                
                 var rowingEvents = _rowingEventRepository.GetRowingEvents(tableOptions);                
                 var total = _rowingEventRepository.GetRowingEventsCount();
                 return Ok(new { data = rowingEvents, total });

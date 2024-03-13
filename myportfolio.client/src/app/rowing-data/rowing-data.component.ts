@@ -19,7 +19,8 @@ export class RowingDataComponent implements OnInit {
   recordsPerPage = 10;
   sortColumn = '';
   sortAscending = true;
-  isLoading = false;
+  isLoading = true;
+  showSpinnerGif = true;
   constructor(private http: HttpClient, private toastr: ToastrService) { }
 
   toggleForm() { 
@@ -46,15 +47,26 @@ export class RowingDataComponent implements OnInit {
     this.getRowingEvents();
   }
 
+  changeRecordsPerPage() {
+    this.currentPage = 1; //chaning the number of records to display, so go back to the first page
+    this.getRowingEvents();
+  }
+
   getRowingEvents() {
     const skip = (this.currentPage - 1) * this.recordsPerPage;
     const take = this.recordsPerPage;
+    let loadingTimeout = setTimeout(() => {
+      console.log("setting showSpinnerGif to true");
+      this.isLoading = true;
+    }, 1000); // Set isLoading to true after 1 second
 
     this.http.get(`${environment.apiUrl}/RowingEvent?skip=${skip}&take=${take}&sortColumn=${this.sortColumn}&sortAscending=${this.sortAscending}`).subscribe((response: any) => {
+      clearTimeout(loadingTimeout);
       this.rowingEvents = response.data;
       this.totalRecords = response.total;
       this.isLoading = false;
     }, error => {
+      clearTimeout(loadingTimeout);
       console.error(error);
     });
   }
