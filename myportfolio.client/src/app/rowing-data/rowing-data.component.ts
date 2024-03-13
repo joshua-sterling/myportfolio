@@ -35,6 +35,7 @@ export class RowingDataComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.isFormVisible = false;
     this.rowingEventForm = new FormGroup({
       'distance': new FormControl(null, [Validators.required, Validators.min(1)]),
       'totalTime': new FormControl(null, Validators.required),
