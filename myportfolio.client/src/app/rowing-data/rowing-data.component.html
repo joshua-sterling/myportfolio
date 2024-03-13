@@ -1,5 +1,5 @@
-<button (click)="toggleForm()" class="formButton">
-  {{ isFormVisible ? 'Hide' : 'Show' }} Rowing Event Entry Form
+<button (click)="toggleForm()" class="formButton" *ngIf="!isFormVisible">
+  Add New Rowing Event
 </button>
 
 <div class="form-container" *ngIf="isFormVisible">
@@ -16,7 +16,10 @@
     <label for="strokeRate">Stroke Rate</label>
     <input id="strokeRate" type="number" formControlName="strokeRate" min="0" max="50">
 
-    <button type="submit" class="formButton">Add Rowing Event</button>
+    <div class="form-buttons">
+      <button type="submit" class="formButton">Add Rowing Event</button>
+      <button type="button" class="formButton cancel" (click)="toggleForm()">Cancel</button>
+    </div>
   </form>
  </div>
 
@@ -43,10 +46,10 @@
   <table>
     <thead>
       <tr>
-        <th>Event Date</th>
-        <th>Distance</th>
-        <th>Total Time</th>
-        <th>Stroke Rate</th>
+        <th (click)="sort('EventDate')">Event Date <span *ngIf="sortColumn === 'EventDate'"> {{sortAscending ? '↑' : '↓'}}</span></th>
+        <th (click)="sort('Distance')">Distance <span *ngIf="sortColumn === 'Distance'"> {{sortAscending ? '↑' : '↓'}}</span></th>
+        <th (click)="sort('TotalTime')">Total Time <span *ngIf="sortColumn === 'TotalTime'"> {{sortAscending ? '↑' : '↓'}}</span></th>
+        <th (click)="sort('StrokeRate')">Stroke Rate <span *ngIf="sortColumn === 'StrokeRate'"> {{sortAscending ? '↑' : '↓'}}</span></th>
       </tr>
     </thead>
     <tbody>

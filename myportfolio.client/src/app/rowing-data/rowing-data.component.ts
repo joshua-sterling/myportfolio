@@ -49,7 +49,7 @@ export class RowingDataComponent implements OnInit {
     const skip = (this.currentPage - 1) * this.recordsPerPage;
     const take = this.recordsPerPage;
 
-    this.http.get(`${environment.apiUrl}/RowingEvent?skip=${skip}&take=${take}`).subscribe((response: any) => {
+    this.http.get(`${environment.apiUrl}/RowingEvent?skip=${skip}&take=${take}&sortColumn=${this.sortColumn}&sortAscending=${this.sortAscending}`).subscribe((response: any) => {
       this.rowingEvents = response.data;
       this.totalRecords = response.total;
       this.isLoading = false;
@@ -76,6 +76,19 @@ export class RowingDataComponent implements OnInit {
     return Math.ceil(this.totalRecords / this.recordsPerPage);
   }
 
+  sort(column: string) {
+    // If the user clicked the same column, toggle the sort direction
+    if (this.sortColumn === column) {
+      this.sortAscending = !this.sortAscending;
+    } else {
+      // If the user clicked a different column, sort in ascending order
+      this.sortColumn = column;
+      this.sortAscending = true;
+    }
+
+    // Fetch the data with the new sort column and direction
+    this.getRowingEvents();
+  }
   
 
   onSubmit() {    
@@ -84,6 +97,7 @@ export class RowingDataComponent implements OnInit {
     this.http.post(`${environment.apiUrl}/RowingEvent`, formData,{ observe: 'response' }).subscribe((response: HttpResponse<any>) => {      
       if (response.status === 200) { 
         this.toastr.success('Form submitted successfully!');
+        this.isFormVisible = false;
         this.rowingEventForm.reset();
         this.getRowingEvents();
       }

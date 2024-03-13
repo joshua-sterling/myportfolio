@@ -110,3 +110,20 @@ tr:nth-child(even) {
   text-align: right;
   padding-bottom: 1em;
 }
+
+.form-buttons {
+  display: flex;
+  justify-content: space-between;
+}
+
+  .form-buttons .formButton {
+    width: calc(50% - 10px);
+  }
+
+    .form-buttons .formButton.cancel {
+      background-color: #dc3545;
+    }
+
+      .form-buttons .formButton.cancel:hover {
+        background-color: #c82333;
+      }

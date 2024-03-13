@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using myportfolio.Server.Controllers.ViewModels;
 using myportfolio.Server.DataAccess;
 using myportfolio.Server.Models;
@@ -23,12 +24,12 @@ namespace myportfolio.Server.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetRowingEvents([FromQuery] int skip = 0, [FromQuery] int take = 10)
+        public IActionResult GetRowingEvents([FromQuery] TableOptions tableOptions)
         {
             try
             {
-                var rowingEvents = _rowingEventRepository.GetRowingEvents().Skip(skip).Take(take).ToList();
-                var total = _rowingEventRepository.GetRowingEvents().Count();
+                var rowingEvents = _rowingEventRepository.GetRowingEvents(tableOptions);                
+                var total = _rowingEventRepository.GetRowingEventsCount();
                 return Ok(new { data = rowingEvents, total });
             }
             catch(Exception ex)
