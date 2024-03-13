@@ -18,7 +18,7 @@ try
     }
     else
     {
-        connectionString = builder.Configuration["DefaultConnection"];
+        connectionString = builder.Configuration["MyPortfolioConnection"];
     }
 
     builder.Services.AddAutoMapper(typeof(Program));
@@ -48,11 +48,11 @@ try
             Example = new Microsoft.OpenApi.Any.OpenApiString("2024-03-01")
         });
     });
-
+    var allowedOrigins = builder.Configuration.GetSection("AllowedOrigins").Get<string>() ?? string.Empty;
     builder.Services.AddCors(options =>
     {
         options.AddPolicy("AllowMyOrigin",
-            builder => builder.WithOrigins("https://localhost:4200", "https://joshsterling.net", "http://jsterling-001-site3.htempurl.com")
+            builder => builder.WithOrigins(allowedOrigins)
                                .AllowAnyHeader()
                                .AllowAnyMethod());
     });
