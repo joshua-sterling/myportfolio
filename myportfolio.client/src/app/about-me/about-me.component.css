@@ -1,0 +1,21 @@
+.about-me {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.photo img {
+  border: 1px solid #000;
+  width: 200px;
+  height: auto;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+}
+  .photo img:hover {
+    border-color: #f00; 
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); 
+  }
+
+.description {
+  flex-grow: 1;
+}
