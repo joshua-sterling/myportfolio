@@ -32,7 +32,7 @@ namespace myportfolio.Server.Controllers
             catch(Exception ex)
             {
                 _logger.LogError(ex, "An error occurred while getting rowing events");
-                return StatusCode(500, $"There was an error processing this request - {ex.Message} - {ex.InnerException}");
+                return StatusCode(500, "There was an error processing this request");
             }
         }
 
@@ -53,7 +53,7 @@ namespace myportfolio.Server.Controllers
             catch(Exception ex)
             {
                 _logger.LogError(ex, "An error occurred while adding a new rowing event");
-                return StatusCode(500, $"There was an error processing this request - {ex.Message} - {ex.InnerException}");
+                return StatusCode(500, "There was an error processing this request");
             }
         }
 
