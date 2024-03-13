@@ -48,10 +48,20 @@ try
             Example = new Microsoft.OpenApi.Any.OpenApiString("2024-03-01")
         });
     });
-    
 
+    builder.Services.AddCors(options =>
+    {
+        options.AddPolicy("AllowMyOrigin",
+            builder => builder.WithOrigins("https://localhost:4200", "https://joshsterling.net", "http://jsterling-001-site3.htempurl.com")
+                               .AllowAnyHeader()
+                               .AllowAnyMethod());
+    });
+
+    // NLog: Setup NLog for Dependency injection
+    builder.Logging.ClearProviders();
+    builder.Host.UseNLog();
     var app = builder.Build();
-
+    app.UseCors("AllowMyOrigin");
     app.UseDefaultFiles();
     app.UseStaticFiles();
 
