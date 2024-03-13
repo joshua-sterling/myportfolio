@@ -23,11 +23,13 @@ namespace myportfolio.Server.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetRowingEvents()
+        public IActionResult GetRowingEvents([FromQuery] int skip = 0, [FromQuery] int take = 10)
         {
             try
             {
-                return Ok(_rowingEventRepository.GetRowingEvents());
+                var rowingEvents = _rowingEventRepository.GetRowingEvents().Skip(skip).Take(take).ToList();
+                var total = _rowingEventRepository.GetRowingEvents().Count();
+                return Ok(new { data = rowingEvents, total });
             }
             catch(Exception ex)
             {

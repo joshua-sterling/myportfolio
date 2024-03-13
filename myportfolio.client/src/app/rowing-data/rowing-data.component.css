@@ -30,3 +30,83 @@ form {
     form button:hover {
       background-color: #0056b3;
     }
+
+table {
+  width: 100%;
+  max-width: 600px;
+  margin: 20px auto;
+  border-collapse: collapse;
+}
+
+table, th, td {
+  border: 1px solid #ccc;
+}
+
+th, td {
+  padding: 10px;
+  text-align: left;
+}
+
+th {
+  background-color: #f8f8f8;
+  color: #000;
+}
+
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+  color: #000;
+}
+
+.formButton{
+  display: block;
+  width: 200px;
+  margin: 20px auto;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+  font-size: 16px;
+  text-align: center;
+}
+
+  .formButton:hover {
+    background-color: #0056b3;
+  }
+
+.pagination-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1em;
+}
+
+  .pagination-controls p {
+    margin: 0;
+  }
+
+  .pagination-controls div {
+    display: flex;
+    align-items: center;
+  }
+
+  .pagination-controls select {
+    margin-left: 0.5em;
+  }
+
+.table-container {
+  width: 100%;
+  max-width: 600px;
+  margin: 20px auto;
+}
+
+  .table-container table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+.records-per-page {
+  text-align: right;
+  padding-bottom: 1em;
+}

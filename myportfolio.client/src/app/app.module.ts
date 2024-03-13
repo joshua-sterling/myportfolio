@@ -1,7 +1,7 @@
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -20,7 +20,7 @@ import { ToastrModule } from 'ngx-toastr';
   ],
   imports: [
     BrowserModule, HttpClientModule,
-    AppRoutingModule, ReactiveFormsModule,
+    AppRoutingModule, ReactiveFormsModule, FormsModule,
     BrowserAnimationsModule, ToastrModule.forRoot({
       timeOut: 10000,
       positionClass: 'toast-center-center',

@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { environment } from '../../environments/environments';
 import { ToastrService } from 'ngx-toastr';
+import { RowingEvent } from '../models/rowing-event'; 
 
 @Component({
   selector: 'app-rowing-data',
@@ -11,7 +12,19 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class RowingDataComponent implements OnInit {
   rowingEventForm!: FormGroup;
+  rowingEvents: RowingEvent[] = [];
+  isFormVisible = true;
+  totalRecords = 0;
+  currentPage = 1;
+  recordsPerPage = 10;
+  sortColumn = '';
+  sortAscending = true;
+  isLoading = false;
   constructor(private http: HttpClient, private toastr: ToastrService) { }
+
+  toggleForm() { 
+    this.isFormVisible = !this.isFormVisible;
+  }
 
   formatTime(time: string): string {
     const parts = time.split(':');
@@ -28,16 +41,51 @@ export class RowingDataComponent implements OnInit {
       'eventDate': new FormControl(null, Validators.required),
       'strokeRate': new FormControl(null, [Validators.required, Validators.min(1)])
     });
+
+    this.getRowingEvents();
   }
 
-  onSubmit() {
-    console.log(this.rowingEventForm.value); // TODO remove this line
+  getRowingEvents() {
+    const skip = (this.currentPage - 1) * this.recordsPerPage;
+    const take = this.recordsPerPage;
+
+    this.http.get(`${environment.apiUrl}/RowingEvent?skip=${skip}&take=${take}`).subscribe((response: any) => {
+      this.rowingEvents = response.data;
+      this.totalRecords = response.total;
+      this.isLoading = false;
+    }, error => {
+      console.error(error);
+    });
+  }
+
+  prevPage() {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+      this.getRowingEvents();
+    }
+  }
+
+  nextPage() {
+    if (this.currentPage < this.maxPage) {
+      this.currentPage++;
+      this.getRowingEvents();
+    }
+  }
+
+  get maxPage() {
+    return Math.ceil(this.totalRecords / this.recordsPerPage);
+  }
+
+  
+
+  onSubmit() {    
     const formData = this.rowingEventForm.value;
     formData.totalTime = this.formatTime(formData.totalTime);
     this.http.post(`${environment.apiUrl}/RowingEvent`, formData,{ observe: 'response' }).subscribe((response: HttpResponse<any>) => {      
-      if (response.status === 200) { // check the status code
+      if (response.status === 200) { 
         this.toastr.success('Form submitted successfully!');
-        this.rowingEventForm.reset(); 
+        this.rowingEventForm.reset();
+        this.getRowingEvents();
       }
     }, error => {
       if (error.status === 400 && error.error.errors) { //validation errors

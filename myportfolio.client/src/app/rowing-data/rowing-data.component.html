@@ -1,4 +1,8 @@
-<div class="form-container">
+<button (click)="toggleForm()" class="formButton">
+  {{ isFormVisible ? 'Hide' : 'Show' }} Rowing Event Entry Form
+</button>
+
+<div class="form-container" *ngIf="isFormVisible">
   <form [formGroup]="rowingEventForm" (ngSubmit)="onSubmit()">
     <label for="eventDate">Event Date</label>
     <input id="eventDate" type="date" formControlName="eventDate">
@@ -12,6 +16,46 @@
     <label for="strokeRate">Stroke Rate</label>
     <input id="strokeRate" type="number" formControlName="strokeRate" min="0" max="50">
 
-    <button type="submit">Add Rowing Event</button>
+    <button type="submit" class="formButton">Add Rowing Event</button>
   </form>
  </div>
+
+<div *ngIf="isLoading">
+  <p>Loading...</p>
+  <!-- TODO add a spinner gif -->
+</div>
+<div class="table-container" *ngIf="!isLoading">
+  <div class="records-per-page">
+    <label for="recordsPerPage">Records per page:</label>
+    <select id="recordsPerPage" [(ngModel)]="recordsPerPage" (change)="getRowingEvents()">
+      <option value="10">10</option>
+      <option value="50">50</option>
+      <option value="100">100</option>
+    </select>
+  </div>
+  <div class="pagination-controls">
+    <p>Total records: {{ totalRecords }}</p>
+    <p>Page {{ currentPage }} of {{ maxPage }}</p>
+    <button (click)="prevPage()" [disabled]="currentPage === 1">Previous</button>
+    <button (click)="nextPage()" [disabled]="currentPage === maxPage">Next</button>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Event Date</th>
+        <th>Distance</th>
+        <th>Total Time</th>
+        <th>Stroke Rate</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let event of rowingEvents">
+        <td>{{ event.eventDate }}</td>
+        <td>{{ event.distance }}</td>
+        <td>{{ event.totalTime }}</td>
+        <td>{{ event.strokeRate }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
