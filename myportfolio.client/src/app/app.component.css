@@ -56,3 +56,65 @@ nav a {
     padding: 2rem 0;
   }
 }
+
+.flare {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 2%;
+  height: 1px;
+  transform-origin: 0 0;
+  background: rgba(255,255,250,1);
+  box-shadow: 0 0 8px 5px rgba(255,255,250,0.3);
+}
+
+  .flare:after, .flare:before {
+    content: ' ';
+    position: absolute;
+    left: 20%;
+    top: -2px;
+    width: 5px;
+    height: 5px;
+    background: rgba(255,255,250,1);
+    border-radius: 50%;
+    box-shadow: 0 0 20px 35px rgba(255,255,250,0.3), 0 0 4px 15px rgba(255,255,250,0.3);
+  }
+
+  .flare:before {
+    width: 20%;
+    left: 10%;
+    box-shadow: 0 0 20px 10px rgba(255,255,250,0.7)
+  }
+
+.subflare {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255,255,250,0.3);
+  left: 20%;
+  transform: translateX(-50%);
+}
+
+.flare.subflare1 {
+  top: 130px;
+  width: 80px;
+  height: 80px;
+  box-shadow: 0 0 3px 1px rgba(255,255,250,0.2);
+  background: rgba(255,255,250,0.1)
+}
+
+.flare.subflare2 {
+  top: 100px;
+  width: 50px;
+  height: 50px;
+  box-shadow: 0 0 1px 1px rgba(255,255,250,0.6)
+}
+
+.flare.subflare3 {
+  left: 24%;
+  background: rgba(50,50,50,0.05);
+  top: 40px;
+  width: 120px;
+  height: 120px;
+}
+
+

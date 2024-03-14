@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener, ElementRef } from '@angular/core';
 
 interface WeatherForecast {
   date: string;
@@ -15,8 +15,18 @@ interface WeatherForecast {
 })
 export class AppComponent implements OnInit {
   
+  @HostListener('window:mousemove', ['$event'])
+  onMouseMove(event: MouseEvent) {
+    const flareElement = this.elRef.nativeElement.querySelector('.flare');
+    const bannerElement = this.elRef.nativeElement.querySelector('.banner');
+    const rect = bannerElement.getBoundingClientRect();
 
-  constructor(private http: HttpClient) {}
+    // Only move the lens flare if the mouse is within the banner, otherwise it is very distracting
+    if (event.clientX > rect.left && event.clientX < rect.right && event.clientY > rect.top && event.clientY < rect.bottom) {
+      flareElement.style.transform = `translateX(${event.clientX - rect.left}px) rotate(${(event.clientX - rect.left) / 10 - 20}deg)`;
+    }
+  }
+  constructor(private http: HttpClient, private elRef: ElementRef) {}
 
   ngOnInit() {
   }
