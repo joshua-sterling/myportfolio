@@ -44,7 +44,7 @@ nav a {
 }
 
   nav a.active, nav a:hover {
-    color: #007BFF;
+    color: red;
   }
 
 @media (max-width: 768px) {
