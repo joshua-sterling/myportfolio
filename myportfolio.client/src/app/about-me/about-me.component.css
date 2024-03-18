@@ -11,11 +11,70 @@
   border-radius: 10px;
   transition: all 0.3s ease;
 }
+
   .photo img:hover {
-    border-color: #f00; 
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); 
+    border-color: #f00;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
   }
+
+.slideshow-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+  .slideshow-container .slideshow {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+
+.thumbnails {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  margin-top: 10px;
+  justify-content: center;
+}
+
+    .slideshow-container .thumbnails img {
+      border: 1px solid #000;
+      width: 50px;
+      height: 75px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
 
 .description {
   flex-grow: 1;
+}
+
+.selected-image {
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  width: 400px;
+  height: 400px;
+}
+
+.slideshow-description {
+  margin: 20px 0;
+  text-align: center;
+}
+.prev-button, .next-button {
+  width: 0;
+  height: 0;
+  border-style: solid;
+  cursor: pointer;
+  background-color: #2b2b2b;
+  text-align: center;
+}
+
+.prev-button {
+  border-width: 20px 30px 20px 0;
+  border-color: #2b2b2b #007BFF #2b2b2b #2b2b2b;
+}
+
+.next-button {
+  border-width: 20px 0 20px 30px;
+  border-color: #2b2b2b #2b2b2b #2b2b2b #007BFF;
 }

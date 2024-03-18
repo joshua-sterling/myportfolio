@@ -6,5 +6,16 @@ import { Component } from '@angular/core';
   styleUrl: './about-me.component.css'
 })
 export class AboutMeComponent {
+  images = ['../../assets/max.png', '../../assets/pyramid.png', '../../assets/hardline.png'];
+  currentImageIndex = 0;
 
+  prevImage() {
+    this.currentImageIndex = (this.currentImageIndex - 1 + this.images.length) % this.images.length;
+  }
+
+  nextImage() {
+    this.currentImageIndex = (this.currentImageIndex + 1) % this.images.length;
+  }
+
+  
 }

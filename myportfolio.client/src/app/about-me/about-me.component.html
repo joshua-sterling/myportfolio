@@ -4,12 +4,35 @@
   </div>
   <p class="description">
     Hello! I'm Joshua. I'm a software developer with a passion for rowing.
-    <br>
+    <br />
     I have degrees in Botany, Accounting, and Software Development.
-    <br>
+    <br />
     I love OU sports and attend as many games in person as I can. Boomer Sooner!
-    <br>
+    <br />
+    <br />
     I'm finally spinning up my own portfolio site to showcase some of my personal work.
+    <br />
     Check out the Rowing App Demo page to see an app I'm building to track my rowing activities!
   </p>
+</div>
+<hr>
+
+<div class="slideshow-parent">
+<div class="slideshow-description">
+  <p>
+    I also enjoy building custom computers. Here are a few of my most recent builds.
+  </p>
+</div>
+
+
+<div class="slideshow-container">
+  <div class="slideshow">
+    <button type="button" class="prev-button" (click)="prevImage()"></button>
+    <img [src]="images[currentImageIndex]" alt="Computer image" class="selected-image">
+    <button type="button" class="next-button" (click)="nextImage()"></button>
+  </div>
+  <div class="thumbnails">
+    <img *ngFor="let image of images; let i = index" [src]="image" (click)="currentImageIndex = i" alt="Computer thumbnail">
+  </div>
+</div>
 </div>
