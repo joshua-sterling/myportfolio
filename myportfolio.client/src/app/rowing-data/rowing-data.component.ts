@@ -20,6 +20,7 @@ export class RowingDataComponent implements OnInit {
   sortColumn = '';
   sortAscending = true;
   isLoading = false;
+  data = [];
   constructor(private http: HttpClient, private toastr: ToastrService) { }
 
   toggleForm() { 
@@ -44,6 +45,7 @@ export class RowingDataComponent implements OnInit {
     });
 
     this.getRowingEvents();
+    this.getChartData();
   }
 
   changeRecordsPerPage() {
@@ -111,6 +113,7 @@ export class RowingDataComponent implements OnInit {
         this.isFormVisible = false;
         this.rowingEventForm.reset();
         this.getRowingEvents();
+        this.getChartData();
       }
     }, error => {
       if (error.status === 400 && error.error.errors) { //validation errors
@@ -123,5 +126,17 @@ export class RowingDataComponent implements OnInit {
         this.toastr.error('An error occurred while submitting the form.');
       }
     });
+  }
+
+  getChartData() {
+    this.http.get(`${environment.apiUrl}/RowingEvent/summary`).subscribe((response: any) => {
+      this.data = response;
+    }, error => {
+      console.error(error);
+    });
+  }
+
+  formatYAxisTicks(value: number): string {
+    return Math.floor(value).toString();
   }
 }

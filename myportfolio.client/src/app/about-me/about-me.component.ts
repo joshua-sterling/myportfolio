@@ -6,7 +6,7 @@ import { Component } from '@angular/core';
   styleUrl: './about-me.component.css'
 })
 export class AboutMeComponent {
-  images = ['../../assets/max.png', '../../assets/pyramid.png', '../../assets/hardline.png'];
+  images = ['../../assets/max.png', '../../assets/pyramid.png', '../../assets/hardline.png', '../../assets/red.png'];
   currentImageIndex = 0;
 
   prevImage() {

@@ -85,5 +85,17 @@ namespace myportfolio.Server.Controllers
             }           
            
         }
+
+        [HttpGet("summary")]
+        public async Task<ActionResult<IEnumerable<ChartData>>> GetRowingEventSummary()
+        {
+            var query =  _rowingEventRepository.GetRowingEvents();
+            var summary = query.GroupBy(x => x.Distance).Select(y => new ChartData
+            {
+                Name = y.Key.ToString()+"m",
+                Value = y.Count()
+            }).ToList();
+            return Ok(summary);
+        }
     }
 }

@@ -57,5 +57,10 @@ namespace myportfolio.Server.DataAccess
         {            
             return _context.SaveChanges();
         }
+
+        public IQueryable<RowingEvent> GetRowingEvents()
+        {
+            return _context.RowingEvents;
+        }
     }
 }

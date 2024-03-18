@@ -62,3 +62,19 @@
     </tbody>
   </table>
 </div>
+
+<div class="rowing-chart">
+  <ngx-charts-bar-vertical [scheme]="'vivid'"
+                           [results]="data"
+                           [gradient]=true
+                           [xAxis]=true
+                           [yAxis]=true
+                           [legend]=true
+                           [showXAxisLabel]=true
+                           [showYAxisLabel]=true
+                           [xAxisLabel]="'Distance'"
+                           [yAxisLabel]="'Number of Events'"
+                           [yAxisTickFormatting]="formatYAxisTicks"
+                            style="fill: grey;">
+  </ngx-charts-bar-vertical>
+</div>
