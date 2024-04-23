@@ -3,7 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { environment } from '../../environments/environments';
 import { ToastrService } from 'ngx-toastr';
-import { RowingEvent } from '../models/rowing-event'; 
+import { RowingEvent } from '../models/rowing-event';
+import { RowingEventService } from './rowing-data.service'; 
 
 @Component({
   selector: 'app-rowing-data',
@@ -21,7 +22,8 @@ export class RowingDataComponent implements OnInit {
   sortAscending = true;
   isLoading = false;
   data = [];
-  constructor(private http: HttpClient, private toastr: ToastrService) { }
+  constructor(private http: HttpClient, private toastr: ToastrService,
+    private rowingEventService: RowingEventService) { }
 
   toggleForm() { 
     this.isFormVisible = !this.isFormVisible;
@@ -60,7 +62,7 @@ export class RowingDataComponent implements OnInit {
       this.isLoading = true;
     }, 1000); // Set isLoading to true after 1 second
 
-    this.http.get(`${environment.apiUrl}/RowingEvent?skip=${skip}&take=${take}&sortColumn=${this.sortColumn}&sortAscending=${this.sortAscending}`).subscribe((response: any) => {
+    this.rowingEventService.getRowingEvents(skip,take,this.sortColumn,this.sortAscending).subscribe((response: any) => {
       clearTimeout(loadingTimeout);
       this.rowingEvents = response.data;
       this.totalRecords = response.total;
@@ -107,7 +109,7 @@ export class RowingDataComponent implements OnInit {
   onSubmit() {    
     const formData = this.rowingEventForm.value;
     formData.totalTime = this.formatTime(formData.totalTime);
-    this.http.post(`${environment.apiUrl}/RowingEvent`, formData,{ observe: 'response' }).subscribe((response: HttpResponse<any>) => {      
+    this.rowingEventService.addRowingEvent( formData).subscribe((response: HttpResponse<any>) => {      
       if (response.status === 200) { 
         this.toastr.success('Form submitted successfully!');
         this.isFormVisible = false;
@@ -129,7 +131,7 @@ export class RowingDataComponent implements OnInit {
   }
 
   getChartData() {
-    this.http.get(`${environment.apiUrl}/RowingEvent/summary`).subscribe((response: any) => {
+    this.rowingEventService.getChartData().subscribe((response: any) => {
       this.data = response;
     }, error => {
       console.error(error);
