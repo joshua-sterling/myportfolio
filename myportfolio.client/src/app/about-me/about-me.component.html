@@ -32,7 +32,11 @@
     <button type="button" class="next-button" (click)="nextImage()"></button>
   </div>
   <div class="thumbnails">
-    <img *ngFor="let image of images; let i = index" [src]="image" (click)="currentImageIndex = i" alt="Computer thumbnail">
+    <img *ngFor="let image of images; let i = index"
+         [src]="image"
+         (click)="currentImageIndex = i"         
+         [class.active-thumbnail]="i === currentImageIndex" 
+         alt="Computer thumbnail">
   </div>
 </div>
 </div>
