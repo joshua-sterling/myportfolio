@@ -20,4 +20,28 @@ describe('AboutMeComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should cycle to the next image', () => {
+    component.currentImageIndex = 0;
+    component.nextImage();
+    expect(component.currentImageIndex).toEqual(1);
+  });
+
+  it('should cycle to the previous image', () => {
+    component.currentImageIndex = 1;
+    component.prevImage();
+    expect(component.currentImageIndex).toEqual(0);
+  });
+
+  it('should cycle to the last image when on the first image and prevImage is called', () => {
+    component.currentImageIndex = 0;
+    component.prevImage();
+    expect(component.currentImageIndex).toEqual(component.images.length - 1);
+  });
+
+  it('should cycle back to the first image when at the last image and nextImage is called', () => {
+    component.currentImageIndex = component.images.length - 1;
+    component.nextImage();
+    expect(component.currentImageIndex).toEqual(0);
+  });
 });
