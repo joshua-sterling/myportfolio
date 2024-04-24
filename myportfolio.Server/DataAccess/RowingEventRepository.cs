@@ -5,16 +5,11 @@ using System.Linq;
 
 namespace myportfolio.Server.DataAccess
 {
-    public class RowingEventRepository
+    public class RowingEventRepository(MyPortfolioContext context)
     {
-        private readonly MyPortfolioContext _context;
+        private readonly MyPortfolioContext _context = context;
 
-        public RowingEventRepository(MyPortfolioContext context)
-        {
-            _context = context;
-        }
-
-        public List<RowingEvent> GetRowingEvents(TableOptions tableOptions)
+        public async Task<List<RowingEvent>> GetRowingEventsAsync(TableOptions tableOptions)
         {
 
             var query = _context.RowingEvents.AsQueryable();
@@ -33,29 +28,29 @@ namespace myportfolio.Server.DataAccess
                 }
             }
 
-            return query.Skip(tableOptions.Skip).Take(tableOptions.Take).ToList();
+            return await  query.Skip(tableOptions.Skip).Take(tableOptions.Take).ToListAsync();
             
         }
 
-        public int GetRowingEventsCount()
+        public async Task<int> GetRowingEventsCountAsync()
         {
-            return _context.RowingEvents.Count();
+            return await _context.RowingEvents.CountAsync();
         }
 
-        public int AddRowingEvent(RowingEvent rowingEvent)
+        public async Task<int> AddRowingEventAsync(RowingEvent rowingEvent)
         {
-            _context.RowingEvents.Add(rowingEvent);
-            return _context.SaveChanges();
+            _context.RowingEvents.Add(rowingEvent);  //Microsoft documentation advises against using AddAsync
+            return await _context.SaveChangesAsync(); //Always await EF Core asynchronous methods immediately.
         }
 
-        public RowingEvent? GetRowingEvent(int id)
+        public async Task<RowingEvent?> GetRowingEventAsync(int id)
         {
-            return _context.RowingEvents.FirstOrDefault(x => x.Id == id);
+            return await _context.RowingEvents.SingleOrDefaultAsync(x => x.Id == id);
         }
 
-        public int SaveChanges()
+        public async Task<int> SaveChangesAsync()
         {            
-            return _context.SaveChanges();
+            return await _context.SaveChangesAsync();
         }
 
         public IQueryable<RowingEvent> GetRowingEvents()

@@ -24,12 +24,13 @@ namespace myportfolio.Server.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetRowingEvents([FromQuery] TableOptions tableOptions)
+        public async Task<IActionResult> GetRowingEventsAsync([FromQuery] TableOptions tableOptions)
         {
             try
             {                
-                var rowingEvents = _rowingEventRepository.GetRowingEvents(tableOptions);                
-                var total = _rowingEventRepository.GetRowingEventsCount();
+                var rowingEvents = await _rowingEventRepository.GetRowingEventsAsync(tableOptions);                
+                var total = await _rowingEventRepository.GetRowingEventsCountAsync();
+
                 return Ok(new { data = rowingEvents, total });
             }
             catch(Exception ex)
@@ -40,7 +41,7 @@ namespace myportfolio.Server.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddRowingEvent(RowingEventViewModel rowingEvent)
+        public async Task<IActionResult> AddRowingEventAsync(RowingEventViewModel rowingEvent)
         {
             if (!ModelState.IsValid)
             {
@@ -51,17 +52,17 @@ namespace myportfolio.Server.Controllers
             {
                 var newRowingEvent = new RowingEvent();
                 _mapper.Map(rowingEvent, newRowingEvent);
-                return Ok(_rowingEventRepository.AddRowingEvent(newRowingEvent));
+                return Ok(await _rowingEventRepository.AddRowingEventAsync(newRowingEvent));
             }
             catch(Exception ex)
             {
-                _logger.LogError(ex, "An error occurred while adding a new rowing event");
+                _logger.LogError(ex, $"An error occurred while adding new rowing event: {rowingEvent}");
                 return StatusCode(500, "There was an error processing this request");
             }
         }
 
         [HttpPatch("{id}")]
-        public IActionResult EditRowingEvent(int id, [FromBody] RowingEventViewModel rowingEvent)
+        public async Task<IActionResult> EditRowingEventAsync(int id, [FromBody] RowingEventViewModel rowingEvent)
         {
             if (!ModelState.IsValid)
             {
@@ -70,11 +71,11 @@ namespace myportfolio.Server.Controllers
 
             try
             {
-                var existingRecord = _rowingEventRepository.GetRowingEvent(id);
+                var existingRecord = await _rowingEventRepository.GetRowingEventAsync(id);
                 if (existingRecord == null) return NotFound();
 
                 _mapper.Map(rowingEvent, existingRecord);
-                _rowingEventRepository.SaveChanges();
+                await _rowingEventRepository.SaveChangesAsync();
 
                 return NoContent();
             }
@@ -87,14 +88,14 @@ namespace myportfolio.Server.Controllers
         }
 
         [HttpGet("summary")]
-        public async Task<ActionResult<IEnumerable<ChartData>>> GetRowingEventSummary()
+        public async Task<ActionResult<IEnumerable<ChartData>>> GetRowingEventSummaryAsync()
         {
             var query =  _rowingEventRepository.GetRowingEvents();
-            var summary = query.GroupBy(x => x.Distance).Select(y => new ChartData
+            var summary = await query.GroupBy(x => x.Distance).Select(y => new ChartData
             {
-                Name = y.Key.ToString()+"m",
+                Name = y.Key.ToString()+"m", //adding m to indicate meters
                 Value = y.Count()
-            }).ToList();
+            }).ToListAsync();
             return Ok(summary);
         }
     }
